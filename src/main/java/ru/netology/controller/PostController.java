@@ -2,7 +2,6 @@ package ru.netology.controller;
 
 import com.google.gson.Gson;
 import ru.netology.model.Post;
-import ru.netology.repository.PostRepository;
 import ru.netology.service.PostService;
 
 import javax.servlet.http.HttpServletResponse;
@@ -11,8 +10,10 @@ import java.io.Reader;
 
 public class PostController {
     public static final String APPLICATION_JSON = "application/json";
-    final PostService service = new PostService(new PostRepository());
-
+    private final PostService service;
+    public PostController(PostService service) {
+        this.service = service;
+    }
 
     public void all(HttpServletResponse response) throws IOException {
         response.setContentType(APPLICATION_JSON);
