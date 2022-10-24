@@ -1,11 +1,14 @@
 package ru.netology.repository;
 
+import org.springframework.stereotype.Repository;
 import ru.netology.model.Post;
 
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
+
 // Stub
+@Repository
 public class PostRepository {
     private final ConcurrentHashMap<Long, Post> repository = new ConcurrentHashMap<>();
     private Long idCounter = 0L;
