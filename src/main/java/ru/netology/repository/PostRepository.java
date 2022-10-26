@@ -5,12 +5,14 @@ import ru.netology.model.Post;
 
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentLinkedDeque;
 
 
 // Stub
 @Repository
 public class PostRepository {
     private final ConcurrentHashMap<Long, Post> repository = new ConcurrentHashMap<>();
+    private final ConcurrentLinkedDeque<Post> archiveRepository = new ConcurrentLinkedDeque<>();
     private Long idCounter = 0L;
 
     public List<Post> all() {
@@ -25,15 +27,16 @@ public class PostRepository {
         if (post == null) {
             synchronized (idCounter) {
                 idCounter++;
-                    var newPost= new Post(idCounter, "Null post ");
+                var newPost = new Post(idCounter, "Null post ");
                 while (repository.putIfAbsent(idCounter, newPost) != null) {
                     idCounter++;
                     newPost.setId(idCounter);
                 }
+                archiveRepository.add(newPost);
                 return newPost;
             }
         }
-        repository.put(post.getId(), post);
+        archiveRepository.add(post);
         return post;
     }
 
