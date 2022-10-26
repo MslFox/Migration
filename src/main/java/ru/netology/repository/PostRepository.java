@@ -25,9 +25,10 @@ public class PostRepository {
         if (post == null) {
             synchronized (idCounter) {
                 idCounter++;
-                Post newPost = new Post(idCounter, "Zero content Post");
+                    var newPost= new Post(idCounter, "Null post ");
                 while (repository.putIfAbsent(idCounter, newPost) != null) {
                     idCounter++;
+                    newPost.setId(idCounter);
                 }
                 return newPost;
             }
